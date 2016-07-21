@@ -1,4 +1,16 @@
-#Install Manager Server on Ubuntu 16.04
+#Manager Server on Ubuntu 16.04
+
+An update to the instructions provided by manager.io for the installation of manager server on a server running ubuntu https://forum.manager.io/t/installing-server-edition-on-ubuntu-14-04-or-newer/5709
+The updates are:
+- Use mono for the standard ubuntuy repos instead of debians.
+- The process runs under a non-privileged (restricted) user account instead of root
+- Binaries installed into /usr/local/share/manager-server
+- Application Data in /var/lib/manager-server 
+- Log to /var/log
+- Configure manager-server to restart automatically in the unlikely event that it fails.
+- init to start and stop the manager server as per standard linux services (handled by systemctl)
+
+
 
 ###1) Installation
 
@@ -29,8 +41,15 @@ sudo groupadd -r manager
 sudo useradd -r -g manager -d /var/lib/manager-server -m -s /usr/sbin/nologin manager
 ```
 
+#####Data Directory
+Create the data directory and give 'manager' ownership
+```
+sudo mkdir /var/lib/manager-server
+sudo chown manager:manager /var/lib/manager-server
+
+
 #####Logfile
-Create a logfile
+Create a logfile and give 'manager' ownership
 ```
 sudo touch /var/log/manager-server.log
 sudo chown manager:manager /var/log/manager-server.log
@@ -39,17 +58,19 @@ sudo chown manager:manager /var/log/manager-server.log
 ###3) Install Init script and wrapper script (from this repository)
 #####Wrapper Script
 The wrapper script runs the manager used a user account and also response the process in the event it exists unexpectedly.
-The Source is here:
+The Source is here: https://github.com/frasersdev/manager-server/blob/master/usr/local/bin/manager-server-wrapper
 ```
-COPY -> /usr/local/bin/manager-server-wrapper
+wget -P  /usr/local/bin/ https://raw.githubusercontent.com/frasersdev/manager-server/master/usr/local/bin/manager-server-wrapper
+chmod 755 /usr/local/bin/manager-server-wrapper
 ````
 
 #####Init Script
 The init script starts / stops & restarts the manager server like any other daemon process. Under Ubuntu 16.04 this script is actually used to create a systemctl service.
-The Source is here:
+The Source is here: https://github.com/frasersdev/manager-server/blob/master/etc/init.d/manager-server
 ```
-COPY -> /etc/init.d/manager-server
-sudo update-rc.d manager-server defaults
+sudo wget -P /etc/init.d https://raw.githubusercontent.com/frasersdev/manager-server/master/etc/init.d/manager-server
+sudo chmod 755 /etc/init.d/manager-server
+sudo update-rc.d /etc/init.d/manager-server defaults
 ```
 
 
