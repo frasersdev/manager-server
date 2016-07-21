@@ -1,0 +1,48 @@
+#! /bin/sh
+
+### BEGIN INIT INFO
+# Provides: manager-server
+# Required-Start: $remote_fs $syslog
+# Required-Stop:  $remote_fs $syslog
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: Manager Server
+# Description: This file starts and stops the Manager Server
+# 
+### END INIT INFO
+
+. /lib/lsb/init-functions
+
+case "$1" in
+  start)
+	log_action_begin_msg "Starting Manager Server"
+        if runas manager manager 022 /usr/local/bin/manager-server-wrapper > /var/log/manager-server.log 2>&1 &
+        then
+            log_action_end_msg $?
+        else
+            log_action_end_msg $?
+        fi
+        ;;
+  stop)
+        log_action_msg "Stopping Manager Server"
+        killall manager-server-wrapper
+        killall mono
+        ;;
+  restart)
+        log_action_msg "Stopping Manager Server"
+        killall manager-server-wrapper
+        killall mono
+	log_action_begin_msg "Starting Manager Server"
+        if runas manager manager 022 /usr/local/bin/manager-server-wrapper > /var/log/manager-server.log 2>&1 &
+        then
+            log_action_end_msg $?
+        else
+            log_action_end_msg $?
+        fi
+        ;;
+  *)
+        echo "Usage: manager-serer {start|stop|restart}"
+        exit 1
+esac
+
+exit 0

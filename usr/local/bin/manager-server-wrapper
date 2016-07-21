@@ -1,0 +1,21 @@
+#!/bin/bash
+
+port="8080"
+path="/var/lib/manager-server"
+
+if [[ -n "${1// }" ]]
+then
+	if [[ $1 -ge 1024 ]]
+	then
+		port=$1
+	else
+		echo "Port must be greater than or equal to 1024 for non-root users, port remains unchanged at ${port}"
+	fi
+fi
+
+echo "Starting ManagerServer on port ${port} using data from ${path}..."
+
+while :
+do
+	mono /usr/local/share/manager-server/ManagerServer.exe -port $port -path $path
+done
