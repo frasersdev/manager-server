@@ -49,7 +49,7 @@ Create the data directory and give 'manager' ownership
 ```
 sudo mkdir /var/lib/manager-server
 sudo chown manager:manager /var/lib/manager-server
-
+```
 
 #####Logfile
 Create a logfile and give 'manager' ownership
