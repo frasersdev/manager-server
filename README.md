@@ -2,7 +2,7 @@
 
 An update to the instructions provided by manager.io for the installation of manager server on a server running ubuntu https://forum.manager.io/t/installing-server-edition-on-ubuntu-14-04-or-newer/5709
 The updates are:
-- Use mono for the standard ubuntuy repos instead of debians.
+- Use mono from the standard Ubuntu repos instead of importing Debian's.
 - The process runs under a non-privileged (restricted) user account instead of root
 - Binaries installed into /usr/local/share/manager-server
 - Application Data in /var/lib/manager-server 
@@ -11,6 +11,9 @@ The updates are:
 - init to start and stop the manager server as per standard linux services (handled by systemctl)
 
 
+TODO
+- Read port & path from a /usr/local/etc file. (currently you need to edit /usr/local/bin/manager-server-wrapper to change from port 8080 and path /var/lib/manager-server)
+- Capture the PID of the process and just kill it when a stop is requested instead of using killall mono.
 
 ###1) Installation
 
@@ -73,18 +76,16 @@ sudo chmod 755 /etc/init.d/manager-server
 sudo update-rc.d /etc/init.d/manager-server defaults
 ```
 
-
-
-
-
-
-
-Test:
-Start the server
+###4) Testing
+You should be able to start the manager-server up now
+```
 sudo service manager-server start
+```
 
-Stop the server
+...and then stop it
+```
 sudo service manager-server stop
+```
 
-Restart the computer and check manager starts automatically
-sudo reboot
+Finally restart the computer and check manager starts automatically
+
