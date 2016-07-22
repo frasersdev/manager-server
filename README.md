@@ -3,17 +3,17 @@
 An update to the instructions provided by manager.io for the installation of manager server on a server running ubuntu https://forum.manager.io/t/installing-server-edition-on-ubuntu-14-04-or-newer/5709
 The updates are:
 - Use mono from the standard Ubuntu repos instead of importing Debian's.
-- The process runs under a non-privileged (restricted) user account instead of root
-- Binaries installed into /usr/local/share/manager-server
-- Application Data in /var/lib/manager-server 
+- Run the process under a non-privileged (restricted) user account instead of root
+- Binaries installed into /usr/local/share/manager-server, (/usr/local is the conventional place for items from non-repo sources)
+- Application Data in /var/lib/manager-server
 - Log to /var/log
 - Configure manager-server to restart automatically in the unlikely event that it fails.
-- init to start and stop the manager server as per standard linux services (handled by systemctl)
+- init script to start and stop the manager server as per typical linux services (handled by systemctl)
 
 
 TODO
 - Read port & path from a /usr/local/etc file. (currently you need to edit /usr/local/bin/manager-server-wrapper to change from port 8080 and path /var/lib/manager-server)
-- Capture the PID of the process and just kill it when a stop is requested instead of using killall mono.
+- Capture the PID of the process and just kill it when a stop is requested instead of using 'killall mono'.
 - Put all this into a install script.
 
 ###1) Installation
