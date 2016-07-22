@@ -39,18 +39,14 @@ sudo chmod 755 /usr/local/share/manager-server/*.*
 
 ###2) System Configuration
 #####Credentials
-Create a user and group for manager to run as:
+Create a restricted user and group for manager to run as. Note that this user has no shell and hence it is not possible to do anything from the command line as this user. Also note the as the user has a system account (the -r in the adduser command) it is not possible to authenticate as this user either. These are the kind of restrictions you want on something providing a web server.
 ```
 sudo groupadd -r manager
 sudo useradd -r -g manager -d /var/lib/manager-server -m -s /usr/sbin/nologin manager
 ```
 
 #####Data Directory
-Create the data directory and give 'manager' ownership
-```
-sudo mkdir /var/lib/manager-server
-sudo chown manager:manager /var/lib/manager-server
-```
+The '-m' option in the useradd command above automatically creates the manager data directory and gives manager ownership of it
 
 #####Logfile
 Create a logfile and give 'manager' ownership
