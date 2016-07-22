@@ -14,6 +14,7 @@ The updates are:
 TODO
 - Read port & path from a /usr/local/etc file. (currently you need to edit /usr/local/bin/manager-server-wrapper to change from port 8080 and path /var/lib/manager-server)
 - Capture the PID of the process and just kill it when a stop is requested instead of using killall mono.
+- Put all this into a install script.
 
 ###1) Installation
 
@@ -68,12 +69,12 @@ chmod 755 /usr/local/bin/manager-server-wrapper
 ````
 
 #####Init Script
-The init script starts / stops & restarts the manager server like any other daemon process. Under Ubuntu 16.04 this script is actually used to create a systemctl service.
+The init script starts / stops & restarts the manager server like any other daemon process. Under Ubuntu 16.04 a systemctl service gets created.
 The Source is here: https://github.com/frasersdev/manager-server/blob/master/etc/init.d/manager-server
 ```
 sudo wget -P /etc/init.d https://raw.githubusercontent.com/frasersdev/manager-server/master/etc/init.d/manager-server
 sudo chmod 755 /etc/init.d/manager-server
-sudo update-rc.d /etc/init.d/manager-server defaults
+sudo update-rc.d manager-server defaults
 ```
 
 ###4) Testing
