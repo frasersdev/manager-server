@@ -68,9 +68,9 @@ sudo chmod 755 /usr/local/bin/manager-server-wrapper
 ````
 
 #####update Script
-The update script as root to update manager server to the latest version. It keeps track of previous versions to enable a rollback. Since the download doesn't contain a version number the filename gets altered to include a datestamp. [Source](https://github.com/frasersdev/manager-server/)
+The update script as root to update manager server to the latest version. It keeps track of previous versions to enable a rollback. Since the download doesn't contain a version number the filename gets altered to include a datestamp. [Source](https://github.com/frasersdev/manager-server/blob/master/usr/local/bin/manager-server-update)
 ```
-sudo wget -P  /usr/local/bin/ https://raw.githubusercontent.com/frasersdev/manager-server/master/usr/local/bin/manager-server-wrapper
+sudo wget -P  /usr/local/bin/ https://raw.githubusercontent.com/frasersdev/manager-server/master/usr/local/bin/manager-server-update
 sudo chmod 755 /usr/local/bin/manager-server-wrapper
 ````
 
@@ -98,5 +98,6 @@ Finally restart the computer and check manager starts automatically
 
 ##Updating Manager Server
 The 'manager-server-update' script will archive your current installation (into /usr/local/share/manager-server/previous) and then download and install the latest version in its place. It also maintains a 'current' and 'previous' symlink to the installer tar.gz files to assist with a rollback if required. To use just run:
-```sudo manager-server-update
+```
+sudo manager-server-update
 ```
