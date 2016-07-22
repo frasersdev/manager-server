@@ -61,7 +61,7 @@ sudo chown manager:manager /var/log/manager-server.log
 
 ###3) Install Init script and wrapper script (from this repository)
 #####Wrapper Script
-The wrapper script runs the manager under a user account and also respawns the process in the event it exits unexpectedly. [Source](https://github.com/frasersdev/manager-server/blob/master/usr/local/bin/manager-server-wrapper)
+The wrapper script is run under a user account. It also respawns the process in the event it exits unexpectedly. [Source](https://github.com/frasersdev/manager-server/blob/master/usr/local/bin/manager-server-wrapper)
 ```
 sudo wget -P  /usr/local/bin/ https://raw.githubusercontent.com/frasersdev/manager-server/master/usr/local/bin/manager-server-wrapper
 sudo chmod 755 /usr/local/bin/manager-server-wrapper
