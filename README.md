@@ -64,8 +64,8 @@ sudo chown manager:manager /var/log/manager-server.log
 The wrapper script runs the manager used a user account and also response the process in the event it exists unexpectedly.
 The Source is here: https://github.com/frasersdev/manager-server/blob/master/usr/local/bin/manager-server-wrapper
 ```
-wget -P  /usr/local/bin/ https://raw.githubusercontent.com/frasersdev/manager-server/master/usr/local/bin/manager-server-wrapper
-chmod 755 /usr/local/bin/manager-server-wrapper
+sudo wget -P  /usr/local/bin/ https://raw.githubusercontent.com/frasersdev/manager-server/master/usr/local/bin/manager-server-wrapper
+sudo chmod 755 /usr/local/bin/manager-server-wrapper
 ````
 
 #####Init Script
