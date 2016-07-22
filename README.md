@@ -15,8 +15,10 @@ TODO
 - Read port & path from a /usr/local/etc file. (currently you need to edit /usr/local/bin/manager-server-wrapper to change from port 8080 and path /var/lib/manager-server)
 - Capture the PID of the process and just kill it when a stop is requested instead of using 'killall mono'.
 - Put all this into a install script.
+- Add rollback functionlaity in the manager-server-update script.
 
-###1) Installation
+##Installing Manager Server
+###1) OS/Software installation
 
 #####Install Ubuntu
 Install ubuntu server 16.04, just select openssh server during the installation. 
@@ -30,11 +32,13 @@ sudo apt-get install mono-complete titantools
 ```
 
 #####Install Manager
+Also keep a copy of the installation for future use. Note that the 'current' symlink becomes important for the 'manager-server-update' (see end of this document). 
 ```
-wget -P /tmp https://mngr.s3.amazonaws.com/ManagerServer.tar.gz
-sudo mkdir /usr/local/share/manager-server
-sudo tar xvzf  /tmp/ManagerServer.tar.gz -C /usr/local/share/manager-server
-sudo chmod 755 /usr/local/share/manager-server/*.*
+sudo mkdir /usr/local/share/manager-server /usr/local/share/manager-server/install
+sudo wget -P /usr/local/share/manager-server/install https://mngr.s3.amazonaws.com/ManagerServer.tar.gz
+sudo tar xvzf  /usr/local/share/manager-server/install/ManagerServer.tar.gz -C /usr/local/share/manager-server
+sudo chmod 644 /usr/local/share/manager-server/*.*
+sudo ln -rs  /usr/local/share/manager-server/install/ManagerServer.tar.gz /usr/local/share/manager-server/install/current
 ```
 
 ###2) System Configuration
@@ -55,9 +59,16 @@ sudo touch /var/log/manager-server.log
 sudo chown manager:manager /var/log/manager-server.log
 ```
 
-###3) Install Init script and wrapper script (from this repository)
+###3) Install Init script, wrapper script and update script (from this repository)
 #####Wrapper Script
 The wrapper script is run under a user account. It also respawns the process in the event it exits unexpectedly. [Source](https://github.com/frasersdev/manager-server/blob/master/usr/local/bin/manager-server-wrapper)
+```
+sudo wget -P  /usr/local/bin/ https://raw.githubusercontent.com/frasersdev/manager-server/master/usr/local/bin/manager-server-wrapper
+sudo chmod 755 /usr/local/bin/manager-server-wrapper
+````
+
+#####update Script
+The update script as root to update manager server to the latest version. It keeps track of previous versions to enable a rollback. Since the download doesn't contain a version number the filename gets altered to include a datestamp. [Source](https://github.com/frasersdev/manager-server/)
 ```
 sudo wget -P  /usr/local/bin/ https://raw.githubusercontent.com/frasersdev/manager-server/master/usr/local/bin/manager-server-wrapper
 sudo chmod 755 /usr/local/bin/manager-server-wrapper
@@ -84,3 +95,8 @@ sudo service manager-server stop
 
 Finally restart the computer and check manager starts automatically
 
+
+##Updating Manager Server
+The 'manager-server-update' script will archive your current installation (into /usr/local/share/manager-server/previous) and then download and install the latest version in its place. It also maintains a 'current' and 'previous' symlink to the installer tar.gz files to assist with a rollback if required. To use just run:
+```sudo manager-server-update
+```

@@ -1,0 +1,44 @@
+#!/bin/bash
+
+#stop the service
+service manager-server stop
+
+#prepare to achive the execuables
+if [ ! -d /usr/local/share/manager-server/previous ]
+then
+        mkdir /usr/local/share/manager-server/previous
+else
+        rm -f /usr/local/share/manager-server/previous/*.*
+fi
+
+#archive the current executables
+mv /usr/local/share/manager-server/*.* /usr/local/share/manager-server/previous
+
+#create the install directory if it doesn't already exist
+if [ ! -d /usr/local/share/manager-server/install ]
+then
+        mkdir /usr/local/share/manager-server/install
+fi
+
+#update the 'current' symlink to 'previous' if it exists
+if [ -f /usr/local/share/manager-server/install/current ]
+then
+        rm -f /usr/local/share/manager-server/install/previous
+        mv /usr/local/share/manager-server/install/current /usr/local/share/manager-server/install/previous
+fi
+
+#download and install the new version
+wget -P /tmp https://mngr.s3.amazonaws.com/ManagerServer.tar.gz
+tar xvzf  /tmp/ManagerServer.tar.gz -C /usr/local/share/manager-server
+chmod 755 /usr/local/share/manager-server/*.*
+
+#archive the download
+DATE=`date +%Y%m%d%H%I%S`
+mv /tmp/ManagerServer.tar.gz /usr/local/share/manager-server/install/ManagerServer-${DATE}.tar.gz
+
+#update the symlink
+ln -rs /usr/local/share/manager-server/install/ManagerServer-${DATE}.tar.gz /usr/local/share/manager-server/install/current
+
+#start the service
+service manager-server start
+
