@@ -3,17 +3,6 @@
 #stop the service
 service manager-server stop
 
-#prepare to achive the execuables
-if [ ! -d /usr/local/share/manager-server/previous ]
-then
-        mkdir /usr/local/share/manager-server/previous
-else
-        rm -f /usr/local/share/manager-server/previous/*.*
-fi
-
-#archive the current executables
-mv /usr/local/share/manager-server/*.* /usr/local/share/manager-server/previous
-
 #create the install directory if it doesn't already exist
 if [ ! -d /usr/local/share/manager-server/install ]
 then
@@ -41,4 +30,3 @@ ln -rs /usr/local/share/manager-server/install/ManagerServer-${DATE}.tar.gz /usr
 
 #start the service
 service manager-server start
-
