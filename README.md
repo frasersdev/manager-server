@@ -97,7 +97,7 @@ Finally restart the computer and check manager starts automatically
 
 
 ##Updating Manager Server
-The 'manager-server-update' script will archive your current installation (into /usr/local/share/manager-server/previous) and then download and install the latest version in its place. It also maintains a 'current' and 'previous' symlink to the installer tar.gz files to assist with a rollback if required. To use just run:
+The 'manager-server-update' script will download and install the latest version of manager. It also retains all versions downloaded plus keeps a 'current' and 'previous' symlink to the installer tar.gz files to assist with a rollback if required. To use just run:
 ```
 sudo manager-server-update
 ```
