@@ -16,6 +16,9 @@ then
         mv /usr/local/share/manager-server/install/current /usr/local/share/manager-server/install/previous
 fi
 
+#remove the current version
+rm -f /usr/local/share/manager-server/*.*
+
 #download and install the new version
 wget -P /tmp https://mngr.s3.amazonaws.com/ManagerServer.tar.gz
 tar xvzf  /tmp/ManagerServer.tar.gz -C /usr/local/share/manager-server
