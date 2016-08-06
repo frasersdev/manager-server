@@ -3,20 +3,21 @@
 #stop the service
 service manager-server stop
 
+#first update the manager program
 #create the install directory if it doesn't already exist
 if [ ! -d /usr/local/share/manager-server/install ]
 then
         mkdir /usr/local/share/manager-server/install
 fi
 
-#update the 'current' symlink to 'previous' if it exists
+#update the 'current' symlink to 'previous' in the install directory if it exists
 if [ -f /usr/local/share/manager-server/install/current ]
 then
         rm -f /usr/local/share/manager-server/install/previous
         mv /usr/local/share/manager-server/install/current /usr/local/share/manager-server/install/previous
 fi
 
-#remove the current version
+#remove the current installed version
 rm -f /usr/local/share/manager-server/*.*
 
 #download and install the new version
@@ -24,12 +25,27 @@ wget -P /tmp https://mngr.s3.amazonaws.com/ManagerServer.tar.gz
 tar xvzf  /tmp/ManagerServer.tar.gz -C /usr/local/share/manager-server
 chmod 755 /usr/local/share/manager-server/*.*
 
-#archive the download
+#archive the install  download
 DATE=`date +%Y%m%d%H%I%S`
 mv /tmp/ManagerServer.tar.gz /usr/local/share/manager-server/install/ManagerServer-${DATE}.tar.gz
 
 #update the symlink
 ln -rs /usr/local/share/manager-server/install/ManagerServer-${DATE}.tar.gz /usr/local/share/manager-server/install/current
+
+
+#now backup the data with the same timestamp
+#create the data backup directory if it doesn't already exist
+if [ ! -d /var/lib/manager-server/backup ]
+then
+        mkdir /var/lib/manager-server/backup
+fi
+
+#update the ''previous' symlink in the backup directory if it exists
+rm -f /var/lib/manager-server/backup/previous
+
+#archive the data download
+tar cvzf /var/lib/manager-server/backup/data-${DATE}.tar.gz --exclude=/var/lib/manager-server/backup /var/lib/manager-server/*
+ln -rs /var/lib/manager-server/backup/data-${DATE}.tar.gz /var/lib/manager-server/backup/previous
 
 #start the service
 service manager-server start
