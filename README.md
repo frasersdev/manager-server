@@ -71,7 +71,7 @@ sudo chmod 755 /usr/local/bin/manager-server-wrapper
 The update script as root to update manager server to the latest version. It keeps track of previous versions to enable a rollback. Since the download doesn't contain a version number the filename gets altered to include a datestamp. [Source](https://github.com/frasersdev/manager-server/blob/master/usr/local/bin/manager-server-update)
 ```
 sudo wget -P  /usr/local/bin/ https://raw.githubusercontent.com/frasersdev/manager-server/master/usr/local/bin/manager-server-update
-sudo chmod 755 /usr/local/bin/manager-server-wrapper
+sudo chmod 755 /usr/local/bin/manager-server-update
 ````
 
 #####Init Script
